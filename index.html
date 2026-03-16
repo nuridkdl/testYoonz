@@ -1,12 +1,161 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Berry - The Premium</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>홈페이지</h1>
-  <p>홈페이지를 만들고 있어요</p>
+    <nav class="navbar">
+        <div class="logo">BERRY.</div>
+        <ul class="nav-links">
+            <li><a href="#hero" class="active">Discover</a></li>
+            <li><a href="#types">Varieties</a></li>
+            <li><a href="#benefits">Essence</a></li>
+            <li><a href="#knowledge">Art of Care</a></li>
+            <li><a href="#recipes">Culinary</a></li>
+            <li><a href="#quote">Epilogue</a></li>
+        </ul>
+        <div class="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Section 1: Hero -->
+        <section id="hero" class="panel">
+            <div class="content hero-content">
+                <h1 class="text-reveal"><span>자연이 허락한</span><br><span>가장 완벽한 붉은빛</span></h1>
+                <p class="fade-up delay-2">입안에 스며드는 프리미엄 딸기의 정수</p>
+                <div class="scroll-indicator fade-up delay-3">
+                    <div class="line"></div>
+                </div>
+            </div>
+            <div class="hero-bg"></div>
+        </section>
+
+        <!-- Section 2: Types (Line Layout) -->
+        <section id="types" class="panel">
+            <div class="content left-align">
+                <h2 class="section-title text-reveal"><span>품종의 미학</span></h2>
+                <div class="list-container">
+                    <div class="list-item fade-up">
+                        <div class="line-decorator"></div>
+                        <div class="item-content">
+                            <h3>Seolhyang</h3>
+                            <p>풍부한 과즙과 부드러운 텍스처, 압도적인 향의 밸런스</p>
+                        </div>
+                    </div>
+                    <div class="list-item fade-up delay-1">
+                        <div class="line-decorator"></div>
+                        <div class="item-content">
+                            <h3>Yukbo</h3>
+                            <p>단단한 조직감 속 숨겨진 깊고 묵직한 새콤달콤함</p>
+                        </div>
+                    </div>
+                    <div class="list-item fade-up delay-2">
+                        <div class="line-decorator"></div>
+                        <div class="item-content">
+                            <h3>Akihime</h3>
+                            <p>유려한 실루엣과 극한의 단맛이 선사하는 디저트의 품격</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Benefits (Grid Layout) -->
+        <section id="benefits" class="panel dark-bg">
+            <div class="content left-align">
+                <h2 class="section-title text-reveal text-white"><span>건강한 응축</span></h2>
+                <div class="grid-layout">
+                    <div class="grid-box fade-up">
+                        <div class="box-line"></div>
+                        <h4>비타민 C</h4>
+                        <p>사과의 10배에 달하는 항산화 방어막, 가장 자연스러운 활력</p>
+                    </div>
+                    <div class="grid-box fade-up delay-1">
+                        <div class="box-line"></div>
+                        <h4>라이코펜</h4>
+                        <p>세월의 흐름을 늦추는 붉은 생명력, 안티에이징의 핵심</p>
+                    </div>
+                    <div class="grid-box fade-up delay-2">
+                        <div class="box-line"></div>
+                        <h4>미네랄</h4>
+                        <p>몸의 밸런스를 맞춰주는 순수한 자연의 영양소</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Knowledge (Numbered Lines Layout) -->
+        <section id="knowledge" class="panel">
+            <div class="content left-align">
+                <h2 class="section-title text-reveal"><span>다루는 예술</span></h2>
+                <div class="list-container">
+                    <div class="list-item fade-up">
+                        <span class="number">01</span>
+                        <div class="item-content border-bottom">
+                            <h3>Selection</h3>
+                            <p>과육의 붉은빛이 꼭지 끝까지 깊게 스며들고 섬세한 솜털이 살아있는 것을 눈으로 확인하십시오.</p>
+                        </div>
+                    </div>
+                    <div class="list-item fade-up delay-1">
+                        <span class="number">02</span>
+                        <div class="item-content border-bottom">
+                            <h3>Cleansing</h3>
+                            <p>과육의 단맛을 잃지 않도록, 흐르는 물에 30초 이내로 가볍게 먼지만 씻어내는 것이 완벽합니다.</p>
+                        </div>
+                    </div>
+                    <div class="list-item fade-up delay-2">
+                        <span class="number">03</span>
+                        <div class="item-content border-bottom">
+                            <h3>Storage</h3>
+                            <p>수분 증발을 막기 위해 꼭지를 떼지 않은 원형 그대로 밀폐 용기에 담아 서늘하게 보관하십시오.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Recipes (Gallery Layout) -->
+        <section id="recipes" class="panel">
+            <div class="content left-align">
+                <h2 class="section-title text-reveal"><span>미식의 순간</span></h2>
+                <div class="gallery-layout">
+                    <div class="gallery-item cover-1 fade-up">
+                        <div class="overlay">
+                            <h3>Cold Blending</h3>
+                            <p>본연의 향미를 극대화한 스무디</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item cover-2 fade-up delay-1">
+                        <div class="overlay">
+                            <h3>Cream Sando</h3>
+                            <p>부드러운 우유 크림과 과육의 조화</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item cover-3 fade-up delay-2">
+                        <div class="overlay">
+                            <h3>Classic Tart</h3>
+                            <p>시그니처 바닐라 빈 샹티이 타르트</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Quote (Text Animation) -->
+        <section id="quote" class="panel dark-bg flex-center">
+            <div class="content final-quote">
+                <h2 class="word-reveal" id="animated-quote">시간이 멈추는 달콤함,<br>그 한 입의 예술.</h2>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
 </body>
 </html>
