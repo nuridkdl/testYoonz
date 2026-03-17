@@ -7,14 +7,22 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="custom-cursor">
+        <div class="cursor-visual"></div>
+        <div class="cursor-text">View</div>
+    </div>
     <nav class="navbar">
-        <div class="logo">BERRY.</div>
+        <a href="#" class="logo-container">
+            <span class="logo-main">BERRY</span>
+            <span class="logo-sub">PREMIUM SELECTION</span>
+        </a>
         <ul class="nav-links">
             <li><a href="#hero" class="active">Discover</a></li>
             <li><a href="#types">Varieties</a></li>
             <li><a href="#benefits">Essence</a></li>
             <li><a href="#knowledge">Art of Care</a></li>
-            <li><a href="#recipes">Culinary</a></li>
+            <li><a href="#stores">Boutiques</a></li>
+            <li><a href="#recipes">Creative Recipes</a></li>
             <li><a href="#quote">Epilogue</a></li>
         </ul>
         <div class="hamburger">
@@ -28,130 +36,435 @@
         <!-- Section 1: Hero -->
         <section id="hero" class="panel">
             <div class="content hero-content">
-                <h1 class="text-reveal"><span>자연이 허락한</span><br><span>가장 완벽한 붉은빛</span></h1>
+                <h1 class="text-reveal"><span>자연이 허락한</span><span>가장 완벽한 붉은빛</span></h1>
                 <p class="fade-up delay-2">입안에 스며드는 프리미엄 딸기의 정수</p>
                 <div class="scroll-indicator fade-up delay-3">
                     <div class="line"></div>
                 </div>
             </div>
-            <div class="hero-bg"></div>
         </section>
 
-        <!-- Section 2: Types (Line Layout) -->
+        <!-- Section 2: Types (Card Layout) -->
         <section id="types" class="panel">
-            <div class="content left-align">
-                <h2 class="section-title text-reveal"><span>품종의 미학</span></h2>
-                <div class="list-container">
-                    <div class="list-item fade-up">
-                        <div class="line-decorator"></div>
-                        <div class="item-content">
-                            <h3>Seolhyang</h3>
-                            <p>풍부한 과즙과 부드러운 텍스처, 압도적인 향의 밸런스</p>
+            <div class="content grid-showcase">
+                <div class="showcase-header">
+                    <p class="section-subtitle fade-up">Varieties</p>
+                    <h2 class="section-title text-reveal"><span>다양한 품종의 딸기를 소개합니다.</span></h2>
+                    <p class="section-desc fade-up delay-1">각기 다른 당도, 식감, 향기를 지닌 고유한 품종들을 엄선했습니다.</p>
+                    <p class="section-desc fade-up delay-1">취향에 맞는 완벽한 딸기를 찾아보세요.</p>
+                </div>
+                
+                <div class="card-container">
+                    <!-- Card 1: Seolhyang -->
+                    <div class="variety-card fade-up delay-1">
+                        <div class="card-inner">
+                            <div class="card-tags">
+                                <span>#풍부한 과즙</span>
+                                <span>#새콤달콤</span>
+                            </div>
+                            <h3 class="card-title">설향 <span class="card-en">Seolhyang</span></h3>
+                            <p class="card-desc">대한민국을 대표하는 가장 대중적이고 사랑받는 품종입니다. 한 입 베어 무는 순간 입안 가득 터지는 풍부한 과즙과 부드러운 텍스처가 특징이며, 산미와 단맛의 밸런스가 뛰어나 누구나 호불호 없이 즐길 수 있습니다.</p>
+                            <a href="#" class="card-btn">자세히 보기 <span class="arrow">→</span></a>
                         </div>
                     </div>
-                    <div class="list-item fade-up delay-1">
-                        <div class="line-decorator"></div>
-                        <div class="item-content">
-                            <h3>Yukbo</h3>
-                            <p>단단한 조직감 속 숨겨진 깊고 묵직한 새콤달콤함</p>
+
+                    <!-- Card 2: Yukbo -->
+                    <div class="variety-card fade-up delay-2">
+                        <div class="card-inner">
+                            <div class="card-tags">
+                                <span>#단단한 식감</span>
+                                <span>#깊은 풍미</span>
+                            </div>
+                            <h3 class="card-title">육보 <span class="card-en">Yukbo</span></h3>
+                            <p class="card-desc">아삭하고 단단한 조직감을 선호하시는 분들을 위한 품종입니다. 씹을수록 배어 나오는 깊고 묵직한 새콤달콤함이 매력적이며, 쉽게 무르지 않아 보관기간이 길고 디저트의 가니쉬용으로도 탁월한 선택입니다.</p>
+                            <a href="#" class="card-btn">자세히 보기 <span class="arrow">→</span></a>
                         </div>
                     </div>
-                    <div class="list-item fade-up delay-2">
-                        <div class="line-decorator"></div>
-                        <div class="item-content">
-                            <h3>Akihime</h3>
-                            <p>유려한 실루엣과 극한의 단맛이 선사하는 디저트의 품격</p>
+
+                    <!-- Card 3: Akihime -->
+                    <div class="variety-card fade-up delay-3">
+                        <div class="card-inner">
+                            <div class="card-tags">
+                                <span>#극강의 단맛</span>
+                                <span>#부드러움</span>
+                            </div>
+                            <h3 class="card-title">아키히메 <span class="card-en">Akihime</span></h3>
+                            <p class="card-desc">산미를 거의 느낄 수 없이 달콤함에 완전히 집중된 하이엔드 품종입니다. 길쭉하고 유려한 실루엣이 특징이며, 솜사탕처럼 부드럽게 녹아내리는 극강의 단맛이 디저트로서의 품격을 한 단계 높여줍니다.</p>
+                            <a href="#" class="card-btn">자세히 보기 <span class="arrow">→</span></a>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 3: Benefits (Grid Layout) -->
+        <!-- Section 3: Benefits (The Canvas - Abstract Accordion Panels) -->
         <section id="benefits" class="panel dark-bg">
-            <div class="content left-align">
-                <h2 class="section-title text-reveal text-white"><span>건강한 응축</span></h2>
-                <div class="grid-layout">
-                    <div class="grid-box fade-up">
-                        <div class="box-line"></div>
-                        <h4>비타민 C</h4>
-                        <p>사과의 10배에 달하는 항산화 방어막, 가장 자연스러운 활력</p>
+            <div class="content canvas-layout fade-up">
+                
+                <!-- Panel 1 -->
+                <div class="canvas-panel">
+                    <div class="panel-bg bg-vitaminc"></div>
+                    <div class="panel-content">
+                        <div class="panel-title">
+                            <span class="p-num">01</span>
+                            <h2>VITAMIN C</h2>
+                        </div>
+                        <div class="panel-detail">
+                            <h3>비타민 C</h3>
+                            <p>새빨간 딸기에는 사과의 10배, 레몬의 2배에 달하는 풍부한 순수 비타민 C가 함유되어 있습니다. 강력한 항산화 작용을 통해 일상에 지친 피부 장벽을 탄탄하게 회복시키고, 칙칙해진 안색을 모세혈관 끝까지 투명하고 생기 있게 밝혀줍니다.</p>
+                            <div class="tag-list">
+                                <span>#항산화방어막</span>
+                                <span>#투명한생기</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="grid-box fade-up delay-1">
-                        <div class="box-line"></div>
-                        <h4>라이코펜</h4>
-                        <p>세월의 흐름을 늦추는 붉은 생명력, 안티에이징의 핵심</p>
+                </div>
+
+                <!-- Panel 2 -->
+                <div class="canvas-panel">
+                    <div class="panel-bg bg-lycopene"></div>
+                    <div class="panel-content">
+                        <div class="panel-title">
+                            <span class="p-num">02</span>
+                            <h2>LYCOPENE</h2>
+                        </div>
+                        <div class="panel-detail">
+                            <h3>라이코펜</h3>
+                            <p>딸기 특유의 매혹적이고 탐스러운 붉은빛은 라이코펜 성분에서 비롯됩니다. 뛰어난 항산화력으로 피부 세포의 노화를 극적으로 지연시키며, 세월의 흐름에도 흔들림 없는 단단한 탄력과 건강한 면역력을 꾸준히 유지해 줍니다.</p>
+                            <div class="tag-list">
+                                <span>#붉은빛비밀</span>
+                                <span>#안티에이징</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="grid-box fade-up delay-2">
-                        <div class="box-line"></div>
-                        <h4>미네랄</h4>
-                        <p>몸의 밸런스를 맞춰주는 순수한 자연의 영양소</p>
+                </div>
+
+                <!-- Panel 3 -->
+                <div class="canvas-panel">
+                    <div class="panel-bg bg-anthocyanin"></div>
+                    <div class="panel-content">
+                        <div class="panel-title">
+                            <span class="p-num">03</span>
+                            <h2>ANTHOCYANIN</h2>
+                        </div>
+                        <div class="panel-detail">
+                            <h3>안토시아닌</h3>
+                            <p>붉은 딸기 속에 조용히 깃든 안토시아닌은 자연이 선사하는 진정한 시력 보호막입니다. 장시간 스마트폰과 디지털 기기 사용으로 누적된 현대인의 눈 피로를 부드럽게 완화하고, 시리도록 맑고 투명한 눈의 컨디션을 즉각적으로 되찾아줍니다.</p>
+                            <div class="tag-list">
+                                <span>#눈의피로</span>
+                                <span>#자연의보호막</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel 4 -->
+                <div class="canvas-panel">
+                    <div class="panel-bg bg-pectin"></div>
+                    <div class="panel-content">
+                        <div class="panel-title">
+                            <span class="p-num">04</span>
+                            <h2>PECTIN</h2>
+                        </div>
+                        <div class="panel-detail">
+                            <h3>펙틴</h3>
+                            <p>입안에서 사르르 녹는 달콤한 딸기 과육의 비밀은 바로 수용성 식이섬유인 펙틴입니다. 장내에 축적된 불필요한 노폐물과 나쁜 콜레스테롤을 스펀지처럼 흡착해 배출시키며, 몸속 깊은 곳부터 한결 가벼워지는 이상적인 정화 작용을 유도합니다.</p>
+                            <div class="tag-list">
+                                <span>#수용성식이섬유</span>
+                                <span>#체내정화</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel 5 -->
+                <div class="canvas-panel">
+                    <div class="panel-bg bg-potassium"></div>
+                    <div class="panel-content">
+                        <div class="panel-title">
+                            <span class="p-num">05</span>
+                            <h2>POTASSIUM</h2>
+                        </div>
+                        <div class="panel-detail">
+                            <h3>칼륨</h3>
+                            <p>크고 탐스러운 딸기에 풍부하게 함유된 칼륨은 우리 몸의 붓기를 빼주는 훌륭한 조력자입니다. 맵고 짠 현대인의 식습관으로 체내에 쌓인 정체된 나트륨 배출을 원활하게 돕고, 불필요한 수분을 제거해 언제나 깃털처럼 산뜻한 일상을 만들어 줍니다.</p>
+                            <div class="tag-list">
+                                <span>#수분밸런스</span>
+                                <span>#부기완화</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel 6 -->
+                <div class="canvas-panel">
+                    <div class="panel-bg bg-fisetin"></div>
+                    <div class="panel-content">
+                        <div class="panel-title">
+                            <span class="p-num">06</span>
+                            <h2>FISETIN</h2>
+                        </div>
+                        <div class="panel-detail">
+                            <h3>피세틴</h3>
+                            <p>자연계 식물 중에서도 극히 드물게 딸기에 다량 함유된 피세틴은 뇌 세포를 보호하는 마스터 카드입니다. 노화 질환으로 인한 필연적인 인지 기능 저하를 강력히 방지하고 명료한 기억력을 보존하여, 오랜 시간 변치 않는 맑은 두뇌와 총명함을 지원합니다.</p>
+                            <div class="tag-list">
+                                <span>#뇌세포보호</span>
+                                <span>#인지력향상</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 4: Polaroid Recipe Gallery -->
+        <section id="knowledge" class="panel warm-bg">
+            <div class="content recipe-layout">
+
+                <div class="polaroid-container">
+                    
+                    <!-- Tart -->
+                    <div class="polaroid-item p-tart">
+                        <div class="p-photo">
+                            <img src="./recipe_tart_close_1773727396958.png" class="p-img" alt="딸기 타르트">
+                        </div>
+                        <div class="p-caption">딸기 타르트</div>
+                    </div>
+                    
+                    <!-- Smoothie -->
+                    <div class="polaroid-item p-smoothie">
+                        <div class="p-photo">
+                            <img src="./recipe_smoothie_1773726441951.png" class="p-img" alt="딸기 스무디">
+                        </div>
+                        <div class="p-caption">딸기 스무디</div>
+                    </div>
+
+                    <!-- Cake -->
+                    <div class="polaroid-item p-cake">
+                        <div class="p-photo">
+                            <img src="./recipe_cake_close_1773727429759.png" class="p-img" alt="딸기 프레지에">
+                        </div>
+                        <div class="p-caption">딸기 프레지에</div>
+                    </div>
+
+                    <!-- Crepe -->
+                    <div class="polaroid-item p-crepe">
+                        <div class="p-photo">
+                            <img src="./recipe_crepe_close_1773727411677.png" class="p-img" alt="딸기 크레페">
+                        </div>
+                        <div class="p-caption">딸기 크레페</div>
+                    </div>
+
+                    <!-- Sando -->
+                    <div class="polaroid-item p-sando">
+                        <div class="best-doodle-bottom">
+                            <span class="best-text">best!</span>
+                            <svg class="doodle-pigtail" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M90,20 C90,20 80,-10 60,10 C20,50 40,100 70,90 C100,80 100,40 70,30 C40,20 10,80 10,80" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="p-photo">
+                            <img src="./recipe_sando_1773726475516.png" class="p-img" alt="딸기 산도">
+                        </div>
+                        <div class="p-caption">딸기 산도</div>
+                    </div>
+
+                </div>
+
+                <div class="recipe-header fade-up">
+                    <h2 class="section-title">
+                        <span style="position: relative; display: inline-block;">
+                            딸기로 즐기는 디저트
+                        </span>
+                    </h2>
+                    <p class="recipe-subtitle delay-1">Strawberry Desserts</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Store Links (Text Layout) -->
+        <section id="stores" class="panel bg-light">
+            <div class="content store-layout">
+                <div class="recipe-header fade-up">
+                    <h2 class="section-title">
+                        <span style="position: relative; display: inline-block;">
+                            지금 주문해보세요
+                        </span>
+                    </h2>
+                    <p class="recipe-subtitle delay-1">Contact & Location</p>
+                </div>
+
+                <div class="store-list-container">
+                    <div class="store-list">
+                        <a href="https://map.naver.com/v5/search/논산 딸기농장" target="_blank" class="store-item fade-up store-link-target">
+                            <div class="store-info">
+                                <span class="store-num">01</span>
+                                <div class="store-text">
+                                    <h3>논산 킹스베리 농장</h3>
+                                    <p>프리미엄 특대과 킹스베리 전문 산지</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://map.naver.com/v5/search/담양 딸기체험장" target="_blank" class="store-item fade-up store-link-target">
+                            <div class="store-info">
+                                <span class="store-num">02</span>
+                                <div class="store-text">
+                                    <h3>담양 죽향 딸기마을</h3>
+                                    <p>높은 당도와 단단한 과육의 프리미엄 죽향</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://map.naver.com/v5/search/산청 딸기체험" target="_blank" class="store-item fade-up store-link-target">
+                            <div class="store-info">
+                                <span class="store-num">03</span>
+                                <div class="store-text">
+                                    <h3>산청 지리산 메리퀸</h3>
+                                    <p>지리산 청정지역에서 자란 신품종 메리퀸</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://map.naver.com/v5/search/거창 딸기농장" target="_blank" class="store-item fade-up store-link-target">
+                            <div class="store-info">
+                                <span class="store-num">04</span>
+                                <div class="store-text">
+                                    <h3>거창 금실 딸기농원</h3>
+                                    <p>은은한 복숭아 향이 나는 달콤한 금실</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://map.naver.com/v5/search/남양주 딸기농장" target="_blank" class="store-item fade-up store-link-target">
+                            <div class="store-info">
+                                <span class="store-num">05</span>
+                                <div class="store-text">
+                                    <h3>남양주 아리향 농장</h3>
+                                    <p>과즙이 풍부하고 크기가 큰 프리미엄 아리향</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://map.naver.com/v5/search/밀양 딸기농장" target="_blank" class="store-item fade-up store-link-target">
+                            <div class="store-info">
+                                <span class="store-num">06</span>
+                                <div class="store-text">
+                                    <h3>밀양 하얀딸기 스토어</h3>
+                                    <p>최상급 당도, 희소성 높은 프리미엄 만년설 백딸기</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://map.naver.com/v5/search/진주 딸기직판장" target="_blank" class="store-item fade-up store-link-target">
+                            <div class="store-info">
+                                <span class="store-num">07</span>
+                                <div class="store-text">
+                                    <h3>진주 설향 직판장</h3>
+                                    <p>부드러운 식감과 풍부한 과즙의 국민 딸기 설향</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://map.naver.com/v5/search/두물머리 딸기농장" target="_blank" class="store-item fade-up store-link-target">
+                            <div class="store-info">
+                                <span class="store-num">08</span>
+                                <div class="store-text">
+                                    <h3>양평 두물머리 농장</h3>
+                                    <p>무농약 친환경 재배로 안전하게 즐기는 프리미엄 딸기</p>
+                                </div>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 4: Knowledge (Numbered Lines Layout) -->
-        <section id="knowledge" class="panel">
-            <div class="content left-align">
-                <h2 class="section-title text-reveal"><span>다루는 예술</span></h2>
-                <div class="list-container">
-                    <div class="list-item fade-up">
-                        <span class="number">01</span>
-                        <div class="item-content border-bottom">
-                            <h3>Selection</h3>
-                            <p>과육의 붉은빛이 꼭지 끝까지 깊게 스며들고 섬세한 솜털이 살아있는 것을 눈으로 확인하십시오.</p>
-                        </div>
-                    </div>
-                    <div class="list-item fade-up delay-1">
-                        <span class="number">02</span>
-                        <div class="item-content border-bottom">
-                            <h3>Cleansing</h3>
-                            <p>과육의 단맛을 잃지 않도록, 흐르는 물에 30초 이내로 가볍게 먼지만 씻어내는 것이 완벽합니다.</p>
-                        </div>
-                    </div>
-                    <div class="list-item fade-up delay-2">
-                        <span class="number">03</span>
-                        <div class="item-content border-bottom">
-                            <h3>Storage</h3>
-                            <p>수분 증발을 막기 위해 꼭지를 떼지 않은 원형 그대로 밀폐 용기에 담아 서늘하게 보관하십시오.</p>
-                        </div>
+        <!-- Section 6: Creative Recipes (Grid Card Layout) -->
+        <section id="recipes" class="panel bg-light">
+            <div class="content store-layout">
+                <div class="recipe-header fade-up">
+                    <h2 class="section-title">
+                        <span style="position: relative; display: inline-block;">
+                            딸기의 경계를 넘다
+                        </span>
+                    </h2>
+                    <p class="recipe-subtitle delay-1">Creative Strawberry Recipes</p>
+                </div>
+
+                <div class="store-list-container">
+                    <div class="store-list">
+                        <a href="#" class="store-item fade-up recipe-target">
+                            <img src="images/recipe_makgeolli.png" alt="딸기 막걸리" class="recipe-bg">
+                            <div class="store-info">
+                                <div class="store-text">
+                                    <h3>딸기 막걸리</h3>
+                                    <p>부드러운 쌀의 풍미와 화사한 분홍빛 색감이 빚어내는 달달한 전통주</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="store-item fade-up recipe-target">
+                            <img src="images/recipe_kombucha.png" alt="딸기 콤부차" class="recipe-bg">
+                            <div class="store-info">
+                                <div class="store-text">
+                                    <h3>딸기 콤부차</h3>
+                                    <p>톡 쏘는 탄산과 유산균이 듬뿍 담긴 상큼한 발효 음료</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="store-item fade-up recipe-target">
+                            <img src="images/recipe_pizza.png" alt="루꼴라 딸기 피자" class="recipe-bg">
+                            <div class="store-info">
+                                <div class="store-text">
+                                    <h3>루꼴라 딸기 피자</h3>
+                                    <p>화덕 피자 위, 상큼한 딸기와 쌉쌀한 루꼴라의 파격적이고 페어링</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="store-item fade-up recipe-target">
+                            <img src="images/recipe_pickle.png" alt="딸기 청양고추 피클" class="recipe-bg">
+                            <div class="store-info">
+                                <div class="store-text">
+                                    <h3>딸기 청양고추 피클</h3>
+                                    <p>기름진 음식을 깔끔하게 잡아주는 매콤달콤 반전 매력의 곁들임 찬</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="store-item fade-up recipe-target">
+                            <img src="images/recipe_mochi.png" alt="크림치즈 딸기 찹쌀떡" class="recipe-bg">
+                            <div class="store-info">
+                                <div class="store-text">
+                                    <h3>크림치즈 딸기 찹쌀떡</h3>
+                                    <p>쫀득한 찹쌀 피 속에 숨겨진 진한 크림치즈와 통딸기의 조합</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="store-item fade-up recipe-target">
+                            <img src="images/recipe_balsamic.png" alt="딸기 발사믹 글레이즈" class="recipe-bg">
+                            <div class="store-info">
+                                <div class="store-text">
+                                    <h3>딸기 발사믹 글레이즈</h3>
+                                    <p>스테이크나 샐러드의 풍미를 수직 상승시키는 상큼하고 진득한 소스</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="store-item fade-up recipe-target">
+                            <img src="images/recipe_ricebowl.png" alt="불닭 딸기 마요 덮밥" class="recipe-bg">
+                            <div class="store-info">
+                                <div class="store-text">
+                                    <h3>불닭 딸기 마요 덮밥</h3>
+                                    <p>매운맛을 부드럽고 상큼하게 중화시켜 주는 궁극의 단짠맵 요리</p>
+                                </div>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 5: Recipes (Gallery Layout) -->
-        <section id="recipes" class="panel">
-            <div class="content left-align">
-                <h2 class="section-title text-reveal"><span>미식의 순간</span></h2>
-                <div class="gallery-layout">
-                    <div class="gallery-item cover-1 fade-up">
-                        <div class="overlay">
-                            <h3>Cold Blending</h3>
-                            <p>본연의 향미를 극대화한 스무디</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item cover-2 fade-up delay-1">
-                        <div class="overlay">
-                            <h3>Cream Sando</h3>
-                            <p>부드러운 우유 크림과 과육의 조화</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item cover-3 fade-up delay-2">
-                        <div class="overlay">
-                            <h3>Classic Tart</h3>
-                            <p>시그니처 바닐라 빈 샹티이 타르트</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 6: Quote (Text Animation) -->
+        <!-- Section 7: Quote (Text Animation) -->
         <section id="quote" class="panel dark-bg flex-center">
             <div class="content final-quote">
-                <h2 class="word-reveal" id="animated-quote">시간이 멈추는 달콤함,<br>그 한 입의 예술.</h2>
+                <div class="quote-wrapper">
+                    <h2 class="word-reveal" id="animated-quote">Let's go eat some strawberries!</h2>
+                    <div class="rolling-strawberry" id="rolling-berry">
+                        <img src="images/doodle_transparent.png" alt="" class="berry-img">
+                    </div>
+                </div>
             </div>
         </section>
     </main>

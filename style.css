@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700&family=Jost:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Italiana&family=Noto+Serif+KR:wght@300;400;700&family=Jost:wght@300;400;600&display=swap');
 
 :root {
     --accent: #9b111e; /* Ruby Red / Premium Berry */
@@ -23,6 +23,100 @@ html, body {
     color: var(--text-dark);
     overflow: hidden; /* For snap container */
     -webkit-font-smoothing: antialiased;
+    cursor: none; /* Hide default cursor */
+}
+
+/* Custom Cursor */
+/* Custom Cursor Wrapper */
+.custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    mix-blend-mode: difference;
+    will-change: transform;
+}
+
+/* The visible circle */
+.cursor-visual {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #fff;
+    transition: width 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), height 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.3s;
+    will-change: width, height, transform;
+}
+
+/* Active State */
+.custom-cursor.active .cursor-visual {
+    width: 60px;
+    height: 60px;
+}
+
+/* Canvas Panel Hover State */
+.custom-cursor.on-canvas .cursor-visual {
+    width: 45px;
+    height: 45px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Image State */
+.custom-cursor.on-image {
+    mix-blend-mode: normal;
+}
+
+.custom-cursor.on-image .cursor-visual {
+    width: 120px;
+    height: 120px;
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+/* Link State (Section 5) */
+.custom-cursor.on-link {
+    mix-blend-mode: normal;
+}
+.custom-cursor.on-link .cursor-visual {
+    width: 110px;
+    height: 110px;
+    background-color: rgba(155, 17, 30, 0.65); /* Elegant translucent red */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(155, 17, 30, 0.2);
+}
+
+/* Text inside cursor */
+.cursor-text {
+    position: absolute;
+    color: #fff;
+    font-size: 24px;
+    font-family: 'Italiana', serif;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.custom-cursor.on-image .cursor-text {
+    opacity: 1;
+}
+
+.custom-cursor.on-link .cursor-text {
+    opacity: 0 !important; /* Hide text on store links */
+}
+
+/* Completely hide the custom cursor */
+.custom-cursor.hidden-cursor {
+    opacity: 0 !important;
+    transform: scale(0) !important;
 }
 
 h1, h2, h3, h4, .logo, .nav-links a, .number {
@@ -32,9 +126,8 @@ h1, h2, h3, h4, .logo, .nav-links a, .number {
 /* Scroll Container */
 .container {
     height: 100vh;
-    overflow-y: scroll;
-    scroll-snap-type: y mandatory;
-    scroll-behavior: smooth;
+    overflow-y: hidden;
+    position: relative;
     scrollbar-width: none;
 }
 .container::-webkit-scrollbar { display: none; }
@@ -55,11 +148,30 @@ h1, h2, h3, h4, .logo, .nav-links a, .number {
     transition: all 0.3s;
 }
 
-.logo {
-    font-size: 1.5rem;
-    font-weight: 600;
-    letter-spacing: 2px;
+.logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-decoration: none;
+}
+
+.logo-main {
+    font-family: 'Noto Serif KR', serif;
+    font-weight: 700;
+    font-size: 1.6rem;
+    line-height: 1;
     color: var(--accent);
+    transition: color 0.3s;
+    letter-spacing: 2px;
+}
+
+.logo-sub {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 1.5px;
+    color: #888;
+    margin-top: 2px;
+    text-transform: uppercase;
     transition: color 0.3s;
 }
 
@@ -70,17 +182,38 @@ h1, h2, h3, h4, .logo, .nav-links a, .number {
 }
 
 .nav-links li a {
+    position: relative;
     text-decoration: none;
     color: #666;
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     transition: color 0.3s;
+    padding-bottom: 6px;
+}
+
+.nav-links li a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 1.5px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--accent);
+    transform-origin: bottom right;
+    transition: transform 0.4s cubic-bezier(0.86, 0, 0.07, 1);
+}
+
+.nav-links li a:hover::after,
+.nav-links li a.active::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
 }
 
 .nav-links li a:hover,
 .nav-links li a.active {
-    color: var(--accent);
+    color: var(--accent) !important;
 }
 
 .hamburger { display: none; cursor: pointer; z-index: 101; }
@@ -92,7 +225,6 @@ h1, h2, h3, h4, .logo, .nav-links a, .number {
 /* Common Panel Settings */
 .panel {
     min-height: 100vh; 
-    scroll-snap-align: start;
     display: flex; /* Centers content vertically */
     align-items: center;
     padding: var(--nav-height) 5% 0; /* Clear nav bar */
@@ -107,7 +239,7 @@ h1, h2, h3, h4, .logo, .nav-links a, .number {
     width: 100%;
     margin: 0 auto;
     z-index: 2;
-    padding: 4rem 0; /* Breathing room */
+    /* padding removed per user request */
 }
 
 .left-align { text-align: left; }
@@ -118,7 +250,7 @@ h1, h2, h3, h4, .logo, .nav-links a, .number {
 .section-title {
     font-size: 3rem;
     font-weight: 300;
-    margin-bottom: 4rem;
+    margin-bottom: 1rem; /* Reduced bottom margin */
     color: var(--text-dark);
     letter-spacing: -1px;
 }
@@ -159,16 +291,6 @@ h1, h2, h3, h4, .logo, .nav-links a, .number {
     letter-spacing: 2px;
     color: #666;
 }
-.hero-bg {
-    position: absolute;
-    top: 0; right: 0;
-    width: 45%; height: 100%;
-    background: url('https://images.unsplash.com/photo-1596791163488-82502690d56c?q=80&w=2670&auto=format&fit=crop') no-repeat center/cover;
-    opacity: 0.9;
-    z-index: 1;
-    mask-image: linear-gradient(to right, transparent, black 15%);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 15%);
-}
 .scroll-indicator {
     margin-top: 5rem;
     display: inline-block;
@@ -186,80 +308,584 @@ h1, h2, h3, h4, .logo, .nav-links a, .number {
     100% { transform: scaleY(0); transform-origin: bottom; }
 }
 
-/* 2 & 4. List Layouts (Lines instead of boxes) */
-.list-container {
+/* 2. Grid Showcase Layout (Varieties) */
+.grid-showcase {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+.showcase-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+}
+.showcase-header .section-subtitle {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 20px;
+}
+.showcase-header .section-desc {
+    margin-top: 0; /* Removed top margin completely */
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #555;
+    word-break: keep-all;
+}
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    /* margin-top removed to reduce unnecessary space, as grid-showcase gap handles it */
+}
+.variety-card {
+    background-color: #fff;
+    border: 1px solid var(--line);
+    padding: 40px 30px;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s;
     display: flex;
     flex-direction: column;
 }
-.list-item {
+.variety-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+    border-color: #eee;
+}
+.card-tags {
+    margin-bottom: 20px;
     display: flex;
-    align-items: stretch;
-    margin-bottom: 2.5rem;
+    gap: 10px;
+    flex-wrap: wrap;
 }
-.line-decorator {
-    width: 1px;
-    background: var(--accent);
-    margin-right: 2.5rem;
-    transform: scaleY(0);
-    transform-origin: top;
-    transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s;
-}
-.list-item.visible .line-decorator { transform: scaleY(1); }
-
-.number {
-    font-size: 1.5rem;
+.card-tags span {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
     color: var(--accent);
-    margin-right: 2.5rem;
-    font-weight: 300;
-    width: 30px;
+    background-color: rgba(155, 17, 30, 0.05);
+    padding: 4px 10px;
+    border-radius: 4px;
 }
-.item-content {
-    padding-bottom: 2rem;
-    flex: 1;
-}
-.border-bottom {
-    border-bottom: 1px solid var(--line);
-}
-.item-content h3 {
+.card-title {
+    font-family: 'Noto Serif KR', serif;
     font-size: 1.8rem;
-    margin-bottom: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text-dark);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+.card-en {
+    font-family: 'Jost', sans-serif;
+    font-size: 1rem;
     font-weight: 400;
-    letter-spacing: 1px;
-}
-.item-content p {
-    color: #555;
-    line-height: 1.8;
-    font-size: 1.05rem;
-}
-
-/* 3. Benefits Grid */
-.grid-layout {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 4rem;
-    border-top: 1px solid var(--line-dark);
-    padding-top: 4rem;
-}
-.box-line {
-    width: 0;
-    height: 1px;
-    background: var(--accent);
-    margin-bottom: 2rem;
-    transition: 1s ease 0.2s;
-}
-.grid-box.visible .box-line { width: 40px; }
-.grid-box:hover .box-line { width: 100%; transition: 0.5s ease; }
-
-.grid-box h4 {
-    font-size: 1.4rem;
-    font-weight: 300;
-    margin-bottom: 1rem;
-    letter-spacing: 1px;
-    color: var(--text-light);
-}
-.grid-box p {
     color: #999;
+    letter-spacing: 1px;
+}
+.card-desc {
+    font-size: 0.95rem;
     line-height: 1.7;
+    color: #666;
+    margin-bottom: 30px;
+    flex-grow: 1; /* Pushes button to bottom if cards vary in height */
+    word-break: keep-all;
+}
+.card-btn {
+    align-self: flex-start;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s;
+}
+.card-btn .arrow {
+    font-family: 'Jost', sans-serif;
+    transition: transform 0.3s;
+}
+.variety-card:hover .card-btn {
+    color: var(--accent);
+}
+.variety-card:hover .card-btn .arrow {
+    transform: translateX(5px);
+}
+
+/* 4. Polaroid Recipe Gallery */
+.recipe-layout {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.recipe-header {
+    text-align: center;
+    margin-top: 3rem;
+    z-index: 10;
+    position: relative;
+}
+
+/* Polaroids 'BEST' Pigtail Doodle (Bottom Left) */
+.best-doodle-bottom {
+    position: absolute;
+    bottom: 25px;
+    left: 15px; /* Placed on the left side of the photo */
+    z-index: 5;
+    pointer-events: none;
+    transform: rotate(-10deg);
+}
+
+.best-text {
+    font-family: 'Caveat', cursive; /* Handmade doodle font */
+    font-weight: 700;
+    font-size: 2.2rem; /* Larger font for handwritten feel */
+    color: var(--accent);
+    letter-spacing: 2px;
+    display: block;
+    transform: rotate(15deg);
+    position: absolute;
+    top: 50px;
+    left: -20px;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+#knowledge.active-panel .best-text {
+    opacity: 1;
+    transition-delay: 1.5s; /* Appears shortly after the line drawing starts */
+}
+
+.doodle-pigtail {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    opacity: 0.8;
+    z-index: 1;
+    transform: rotate(-5deg);
+}
+
+.doodle-pigtail path {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    transition: stroke-dashoffset 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+#knowledge.active-panel .doodle-pigtail path {
+    stroke-dashoffset: 0;
+    transition-delay: 1.2s; /* delay after section fade up */
+}
+
+.recipe-header .section-title {
+    font-size: 3rem;
+    color: var(--text-dark);
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+}
+
+.recipe-subtitle {
+    font-family: 'Noto Serif KR', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.1rem;
+    color: #888;
+    letter-spacing: 6px; /* Wide, airy tracking */
+    text-transform: uppercase;
+    margin-top: 5px;
+}
+
+.polaroid-container {
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Individual Polaroid Frames */
+.polaroid-item {
+    position: absolute;
+    background: #fff;
+    padding: 15px 15px 50px 15px; /* Heavy bottom padding for polaroid look */
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    border: 1px solid #eaeaea;
+    cursor: pointer;
+    
+    /* Custom Safe Animation */
+    opacity: 0;
+    margin-top: 50px;
+    transition: margin-top 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.8s ease, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s;
+}
+
+/* Base Hover */
+.polaroid-item:hover {
+    z-index: 20 !important;
+    transform: scale(1.05) rotate(0deg) !important; /* Straighten and zoom on hover */
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+}
+
+/* Display Animation Triggered by Section Observer */
+#knowledge.active-panel .polaroid-item {
+    opacity: 1;
+    margin-top: 0;
+}
+
+#knowledge.active-panel .p-tart { transition-delay: 0.1s, 0.1s, 0s, 0s; }
+#knowledge.active-panel .p-smoothie { transition-delay: 0.2s, 0.2s, 0s, 0s; }
+#knowledge.active-panel .p-cake { transition-delay: 0.3s, 0.3s, 0s, 0s; }
+#knowledge.active-panel .p-crepe { transition-delay: 0.4s, 0.4s, 0s, 0s; }
+#knowledge.active-panel .p-sando { transition-delay: 0.5s, 0.5s, 0s, 0s; }
+
+/* Handwritten Captions (Now in Korean) */
+.p-caption {
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-family: 'Noto Serif KR', serif; /* Changed to Korean font */
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #444;
+}
+
+/* Specific Scatter Positions & Rotations for 5 Items across full width */
+.p-tart {
+    top: 10%;
+    left: 4%;
+    transform: rotate(-4deg);
+    z-index: 3;
+}
+
+.p-smoothie {
+    top: 30%;
+    left: 23%;
+    transform: rotate(3deg);
+    z-index: 4;
+}
+
+.p-cake {
+    top: 5%;
+    left: 42%;
+    transform: rotate(-2deg);
+    z-index: 5;
+}
+
+.p-crepe {
+    top: 25%;
+    left: 61%;
+    transform: rotate(5deg);
+    z-index: 2;
+}
+
+.p-sando {
+    top: 15%;
+    left: 80%;
+    transform: rotate(-5deg);
+    z-index: 6;
+}
+
+/* Photo Container Shrink so 5 fit */
+.p-photo {
+    width: 220px;
+    height: 270px;
+    overflow: hidden;
+    background: #f4f4f4;
+}
+
+.p-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.polaroid-item:hover .p-img {
+    transform: scale(1.03);
+}
+
+/* Soft Warm Background overriding the default panel */
+.warm-bg {
+    background-color: #fcfbf9 !important;
+}
+
+/* 3. Benefits Section (Freestyle Keyword Cloud) */
+#benefits.panel {
+    padding: 0; /* Override global .panel padding to achieve true vertical centering */
+    justify-content: center;
+}
+
+#benefits .content {
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.canvas-layout {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #030304; /* Keep the default background dark */
+    margin: 0;
+    padding: 0;
+}
+
+/* 1. The Panels */
+.canvas-panel {
+    flex: 1; /* Equal width by default */
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    border-right: 1px solid rgba(255, 255, 255, 0.05); /* Subtle divider */
+    cursor: pointer;
+    transition: flex 0.6s cubic-bezier(0.25, 1, 0.5, 1); /* Extremely smooth accordion */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.canvas-panel:last-child {
+    border-right: none;
+}
+
+/* Expand the panel on hover */
+.canvas-panel:hover {
+    flex: 4; /* Takes up 4 times the space of the others */
+}
+
+/* Background Layers - Dark by default, bright white on hover */
+.panel-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.15; /* Very dark by default */
+    filter: grayscale(100%);
+    transition: all 0.6s ease;
+    z-index: 1;
+}
+
+/* 2. Background Images per Panel */
+.panel-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0; /* Pure black by default (invisible image) */
+    filter: grayscale(100%);
+    transition: all 0.6s ease;
+    z-index: 1;
+    /* Default dark base underneath images */
+    background-color: #000000; 
+}
+
+/* On expand: reveal the beautiful background image */
+.canvas-panel:hover .panel-bg {
+    opacity: 0.9;
+    filter: grayscale(0%);
+    transform: scale(1.05); /* Subtle zoom */
+}
+
+/* Beautiful Strawberry & Botanical Backgrounds */
+.bg-vitaminc { background-image: url('strawberry_bright_1_1773722041957.png'); } 
+.bg-lycopene { background-image: url('strawberry_bright_2_1773722063781.png'); } 
+.bg-anthocyanin { background-image: url('strawberry_bright_alt_5_v10_1773722775068.png'); } 
+.bg-pectin { background-image: url('strawberry_bright_4_1773722107590.png'); } 
+.bg-potassium { background-image: url('strawberry_bright_alt_5_v11_1773722793706.png'); } 
+.bg-fisetin { background-image: url('https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&q=80'); } /* The approved one */
+
+/* 3. Panel Content Container */
+.panel-content {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Safe Area (Vertical Title - always visible) */
+.panel-title {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.p-num {
+    font-family: 'Jost', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 600; /* Thicker weight */
+    font-style: italic; /* Italicized */
+    color: #ffffff;
+    opacity: 0.5;
+    letter-spacing: 2px;
+}
+
+.panel-title h2 {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200; /* Ultra thin, modern look */
+    font-size: 3.5rem;
+    letter-spacing: 8px; /* Wider spacing */
+    color: rgba(255, 255, 255, 0.2);
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    white-space: nowrap;
+    transition: color 0.4s ease;
+}
+
+.canvas-panel:hover .panel-title h2 {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.6); /* Very crisp thin outline */
+}
+
+/* Hide vertical text slightly when expanded so detail takes over */
+.canvas-panel:hover .panel-title {
+    transform: translateX(-150px);
+    opacity: 0;
+}
+
+/* Hidden Area (Detail Text - only on hover) */
+.panel-detail {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition-delay: 0s;
+    text-align: center;
+    width: 60%;
+    min-width: 320px;
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.8); /* Frosted glass without shadow */
+    padding: 3rem;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 0, 0, 0.05); /* Very subtle border to separate from background */
+    border-radius: 20px;
+}
+
+.canvas-panel:hover .panel-detail {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.2s;
+}
+
+.panel-detail h3 {
+    font-family: 'Noto Serif KR', serif; /* Matching .card-title */
+    font-weight: 700; /* Matching .card-title */
+    font-size: 1.8rem; /* Matching .card-title */
+    color: var(--text-dark); /* Dark text for light background */
+    margin-bottom: 0.8rem; 
+    letter-spacing: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.panel-detail .en-title {
+    font-family: 'Italiana', serif;
+    font-size: 1.1rem;
+    color: #888;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.panel-detail p {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: #444; /* Darker grey text for readability on white */
+    word-break: keep-all;
+    font-weight: 400; /* Slightly thicker weight for black on white */
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.tag-list {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.tag-list span {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent); /* Uses the global dark red accent */
+    background-color: rgba(155, 17, 30, 0.05); /* Soft red background matching the upper section */
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+.bg-number {
+    position: absolute;
+    left: -20px;
+    top: -40px;
+    font-family: 'Italiana', serif;
+    font-size: 7rem;
+    color: rgba(255, 255, 255, 0.05); /* Extremely faint */
+    z-index: 0;
+    pointer-events: none;
+    line-height: 1;
+}
+.editorial-item.right-align .bg-number {
+    left: -20px;
+    right: auto;
+}
+.item-text {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-left: none;
+    padding-top: 30px;
+    padding-left: 0;
+}
+.item-text h3 {
+    font-family: 'Jost', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 400;
+    margin-bottom: 15px;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+.item-text .ko-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 1.1rem;
+    color: var(--accent);
+}
+.item-text p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #ccc;
+    word-break: keep-all;
 }
 
 /* 5. Recipes Gallery */
@@ -296,18 +922,85 @@ h1, h2, h3, h4, .logo, .nav-links a, .number {
 .overlay h3 { font-size: 1.3rem; margin-bottom: 0.5rem; font-weight: 400; letter-spacing: 1px;}
 .overlay p { font-size: 0.95rem; opacity: 0.8; }
 
-/* 6. Quote (Word Reveal) */
+/* 7. Quote (Word Reveal & Rolling Strawberry) */
 .final-quote { 
     display: flex; 
+    flex-direction: column;
     justify-content: center; 
     align-items: center; 
     height: 100%;
 }
+
+.quote-wrapper {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    padding-right: 20px; /* Space for the berry to land */
+}
+
+.rolling-strawberry {
+    position: absolute;
+    right: 10px; /* Position slightly inwards from the end of the text line */
+    bottom: -35px; /* Roll underneath the text */
+    width: 45px; /* Tightly cropped size */
+    height: 45px;
+    border-radius: 50%;
+    transform: translateX(-80vw) rotate(-2880deg); /* Initial position fallback */
+    opacity: 0;
+    z-index: 10;
+    cursor: pointer;
+}
+
+.berry-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+@keyframes roll-in {
+    0% { transform: translateX(-80vw) rotate(-2880deg); opacity: 0; }
+    5% { opacity: 1; }
+    100% { transform: translateX(0) rotate(15deg); opacity: 1; }
+}
+
+.rolling-strawberry.roll-now {
+    animation: roll-in 8s linear forwards;
+}
+
+/* Pause the rolling container if hovered during transit */
+.rolling-strawberry.roll-now:not(.finished):hover {
+    animation-play-state: paused;
+}
+
+/* Lock final state so container roll-in animation is removed and doesn't jump */
+.rolling-strawberry.roll-now.finished {
+    animation: none;
+    transform: translateX(0) rotate(15deg);
+    opacity: 1;
+}
+
+@keyframes berry-jiggle {
+    0% { transform: scale(1.1) translateY(0) rotate(5deg); }
+    100% { transform: scale(1.1) translateY(-8px) rotate(25deg); }
+}
+
+/* Always play the jiggle animation on the inner image when hovered, whether rolling or finished */
+.rolling-strawberry.roll-now:hover .berry-img {
+    animation: berry-jiggle 0.15s infinite alternate ease-in-out;
+    filter: brightness(1.2);
+}
+
 #animated-quote {
-    font-size: 4rem;
-    font-weight: 300;
-    line-height: 1.5;
+    font-size: 3.8rem; /* Reduced from 4.5rem */
+    font-family: 'Italiana', serif;
+    font-style: italic;
+    font-weight: 400; 
+    letter-spacing: 2px;
+    text-transform: uppercase; /* Back to uppercase as requested */
+    white-space: nowrap; /* Prevent line breaks */
+    line-height: 1.4;
     color: var(--text-light);
+    text-align: center;
 }
 .word {
     display: inline-block;
@@ -326,15 +1019,227 @@ h1, h2, h3, h4, .logo, .nav-links a, .number {
     opacity: 1;
 }
 
+/* 5. Store List Layout (New Grid Card Redesign) */
+.content.store-layout {
+    width: 100%;
+    max-width: none; /* Override global .content max-width */
+    margin: 0 auto;
+    padding: 0;
+    height: 85vh; /* slightly taller to fit grid */
+    display: flex;
+    flex-direction: column;
+}
+
+.store-layout .recipe-header {
+    text-align: center;
+    margin-bottom: 40px; /* Space between title and list */
+    margin-top: 0;
+    flex-shrink: 0;
+}
+
+.store-list-container {
+    width: 100%;
+    flex: 1;
+    overflow-y: auto; /* Allow independent scrolling */
+    padding-right: 20px; /* Space for scrollbar */
+    margin-bottom: 0; /* Removed bottom margin */
+    
+    /* Smooth scrolling */
+    scroll-behavior: smooth;
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Elegant custom scrollbar */
+.store-list-container::-webkit-scrollbar {
+    width: 4px;
+}
+.store-list-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+.store-list-container::-webkit-scrollbar-thumb {
+    background: var(--line);
+    border-radius: 10px;
+}
+.store-list-container:hover::-webkit-scrollbar-thumb {
+    background: #ccc;
+}
+
+.store-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 240px;
+    gap: 20px;
+    padding-bottom: 40px;
+}
+
+.store-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Text at bottom */
+    align-items: flex-start;
+    padding: 30px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background-color: #fff;
+    transition: all 0.4s ease;
+    text-decoration: none;
+    cursor: none;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Dynamic Grid Spanning for Asymmetrical look */
+.store-item:nth-child(1) { grid-column: span 2; grid-row: span 2; } /* Large hero card */
+.store-item:nth-child(2) { grid-column: span 1; grid-row: span 1; }
+.store-item:nth-child(3) { grid-column: span 1; grid-row: span 1; }
+.store-item:nth-child(4) { grid-column: span 2; grid-row: span 1; } /* Wide card */
+.store-item:nth-child(5) { grid-column: span 1; grid-row: span 2; } /* Tall card */
+.store-item:nth-child(6) { grid-column: span 1; grid-row: span 1; }
+.store-item:nth-child(7) { grid-column: span 1; grid-row: span 1; }
+.store-item:nth-child(8) { grid-column: span 2; grid-row: span 1; }
+
+
+/* Arrow Pseudo-element */
+.store-item::before {
+    content: '→';
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+    font-size: 1.8rem;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateX(-15px) translateY(0);
+    transition: all 0.3s ease;
+    font-family: 'Italiana', serif;
+}
+
+#recipes .store-item::before {
+    display: none;
+}
+
+.store-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+    border-color: transparent;
+}
+
+.store-item:hover::before {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+}
+
+.store-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.store-info h3, .store-info p {
+    color: var(--text-dark);
+    margin: 0;
+    transition: color 0.4s ease;
+}
+
+/* Recipe Background Image styling (Section 6) */
+.recipe-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    z-index: 0;
+    transform: scale(1.05);
+    filter: brightness(0.4) contrast(1.1); /* Darken for text readability */
+}
+
+.store-item:hover .recipe-bg {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Changing text color on hover when background image appears (Only for recipes) */
+#recipes .store-item:hover .store-text h3,
+#recipes .store-item:hover .store-text p {
+    color: var(--text-light);
+}
+
+.store-num {
+    font-family: 'Italiana', serif;
+    font-size: 1.6rem;
+    color: #ccc;
+    font-weight: 600;
+    transition: color 0.4s ease;
+}
+
+.store-item:hover .store-num {
+    color: var(--accent);
+}
+
+.store-text h3 {
+    font-family: 'Noto Serif KR', serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--text-dark);
+    margin: 0 0 8px 0;
+    transition: color 0.3s ease;
+}
+
+.store-item:hover .store-text h3 {
+    color: var(--accent);
+}
+
+.store-text p {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 1.05rem;
+    color: #777;
+    margin: 0;
+}
+
+/* Stagger Animation Overrides for Store List 
+   We apply delay ONLY to the entrance animations (opacity/transform) by targeting them specifically.
+   Since CSS transition-delay applies to all transitioned properties, we can avoid the hover bug 
+   by placing a specific animation class or handling the transition properties carefully. 
+   Here we reset transition-delay when hovered/active so it doesn't wait when leaving.
+*/
+.store-item.fade-up {
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+#recipes.active-panel .store-item {
+    opacity: 1;
+    transform: translateY(0);
+    /* After entrance, swap transition to hover properties with NO delay */
+    transition: padding 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease, border-radius 0.3s ease, opacity 0.6s ease;
+}
+#recipes.active-panel .store-item:nth-child(1) { transition-delay: 0.1s, 0.1s, 0s, 0s, 0s, 0s; }
+#recipes.active-panel .store-item:nth-child(2) { transition-delay: 0.2s, 0.2s, 0s, 0s, 0s, 0s; }
+#recipes.active-panel .store-item:nth-child(3) { transition-delay: 0.3s, 0.3s, 0s, 0s, 0s, 0s; }
+#recipes.active-panel .store-item:nth-child(4) { transition-delay: 0.4s, 0.4s, 0s, 0s, 0s, 0s; }
+#recipes.active-panel .store-item:nth-child(5) { transition-delay: 0.5s, 0.5s, 0s, 0s, 0s, 0s; }
+#recipes.active-panel .store-item:nth-child(6) { transition-delay: 0.6s, 0.6s, 0s, 0s, 0s, 0s; }
+#recipes.active-panel .store-item:nth-child(7) { transition-delay: 0.7s, 0.7s, 0s, 0s, 0s, 0s; }
+#recipes.active-panel .store-item:nth-child(8) { transition-delay: 0.8s, 0.8s, 0s, 0s, 0s, 0s; }
+
+#recipes.active-panel .store-item:hover {
+    transition-delay: 0s !important; /* Immediately strips delay on hover interaction */
+}
+
 /* MOBILE RESPONSIVE FIXES */
 @media screen and (max-width: 1024px) {
     .hero-content h1 { font-size: 3.5rem; }
-    .hero-bg { opacity: 0.3; mask-image: none; -webkit-mask-image: none; width: 100%; }
     .grid-layout { grid-template-columns: 1fr; gap: 2.5rem; padding-top: 2.5rem;}
     .gallery-layout { grid-template-columns: 1fr; height: auto; }
     .gallery-item { height: 250px; }
     .overlay { opacity: 1; transform: translateY(0); background: linear-gradient(transparent, rgba(0,0,0,0.7)); }
     #animated-quote { font-size: 2.5rem; }
+    .store-layout { width: 85%; }
 }
 
 @media screen and (max-width: 768px) {
@@ -385,4 +1290,12 @@ h1, h2, h3, h4, .logo, .nav-links a, .number {
     .item-content h3 { font-size: 1.4rem; }
     .number { margin-right: 1.5rem; font-size: 1.2rem; }
     .line-decorator { margin-right: 1.5rem; }
+    
+    /* Store Grid Mobile overrides */
+    .store-layout { height: 90vh; }
+    .store-list { 
+        grid-template-columns: 1fr; /* Single column on mobile */
+        grid-auto-rows: minmax(150px, auto); 
+    }
+    .store-item:nth-child(n) { grid-column: span 1; grid-row: span 1; } /* Reset spanning */
 }
