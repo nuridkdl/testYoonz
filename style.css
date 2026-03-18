@@ -109,6 +109,17 @@ html, body {
     opacity: 1;
 }
 
+.custom-cursor.search-mode .cursor-visual {
+    background-color: rgba(155, 17, 30, 0.7); /* Elegant dark red translucent background */
+    border: 1px solid rgba(155, 17, 30, 0.3);
+}
+
+.custom-cursor.search-mode .cursor-text {
+    color: #ffffff; /* White text looks cleaner on the red background */
+    font-size: 17px; /* Smaller font size as requested */
+    font-weight: 400;
+}
+
 .custom-cursor.on-link .cursor-text {
     opacity: 0 !important; /* Hide text on store links */
 }
@@ -772,14 +783,14 @@ h1, h2, h3, h4, .logo, .nav-links a, .number {
 
 /* Hidden Area (Detail Text - only on hover) */
 .panel-detail {
+    position: relative;
     opacity: 0;
     transform: translateY(30px);
     transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
     transition-delay: 0s;
     text-align: center;
-    width: 60%;
-    min-width: 320px;
-    max-width: 500px;
+    width: 400px;
+    max-width: 90vw; /* Added for mobile responsiveness */
     background: rgba(255, 255, 255, 0.8); /* Frosted glass without shadow */
     padding: 3rem;
     backdrop-filter: blur(20px);
@@ -792,6 +803,24 @@ h1, h2, h3, h4, .logo, .nav-links a, .number {
     opacity: 1;
     transform: translateY(0);
     transition-delay: 0.2s;
+}
+
+/* Scotch Tape Info Board Effect */
+.scotch-tape {
+    position: absolute;
+    top: -15px; /* Hangs over the top edge */
+    left: 50%;
+    transform: translateX(-50%) rotate(-1.5deg);
+    width: 130px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.35); /* Frosted semi-transparent tape */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05), inset 0 0 15px rgba(255,255,255,0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 10;
+    pointer-events: none;
+    border-left: 2px dotted rgba(255, 255, 255, 0.6); /* Torn edge illusion */
+    border-right: 2px dotted rgba(255, 255, 255, 0.6);
 }
 
 .panel-detail h3 {
@@ -1113,9 +1142,7 @@ h1, h2, h3, h4, .logo, .nav-links a, .number {
     font-family: 'Italiana', serif;
 }
 
-#recipes .store-item::before {
-    display: none;
-}
+
 
 .store-item:hover {
     transform: translateY(-5px);
@@ -1144,31 +1171,7 @@ h1, h2, h3, h4, .logo, .nav-links a, .number {
     transition: color 0.4s ease;
 }
 
-/* Recipe Background Image styling (Section 6) */
-.recipe-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    z-index: 0;
-    transform: scale(1.05);
-    filter: brightness(0.4) contrast(1.1); /* Darken for text readability */
-}
 
-.store-item:hover .recipe-bg {
-    opacity: 1;
-    transform: scale(1);
-}
-
-/* Changing text color on hover when background image appears (Only for recipes) */
-#recipes .store-item:hover .store-text h3,
-#recipes .store-item:hover .store-text p {
-    color: var(--text-light);
-}
 
 .store-num {
     font-family: 'Italiana', serif;
@@ -1203,50 +1206,81 @@ h1, h2, h3, h4, .logo, .nav-links a, .number {
     margin: 0;
 }
 
-/* Stagger Animation Overrides for Store List 
-   We apply delay ONLY to the entrance animations (opacity/transform) by targeting them specifically.
-   Since CSS transition-delay applies to all transitioned properties, we can avoid the hover bug 
-   by placing a specific animation class or handling the transition properties carefully. 
-   Here we reset transition-delay when hovered/active so it doesn't wait when leaving.
-*/
+/* Stagger Animation Overrides for Store List */
 .store-item.fade-up {
     transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-#recipes.active-panel .store-item {
+#stores.active-panel .store-item {
     opacity: 1;
     transform: translateY(0);
-    /* After entrance, swap transition to hover properties with NO delay */
     transition: padding 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease, border-radius 0.3s ease, opacity 0.6s ease;
 }
-#recipes.active-panel .store-item:nth-child(1) { transition-delay: 0.1s, 0.1s, 0s, 0s, 0s, 0s; }
-#recipes.active-panel .store-item:nth-child(2) { transition-delay: 0.2s, 0.2s, 0s, 0s, 0s, 0s; }
-#recipes.active-panel .store-item:nth-child(3) { transition-delay: 0.3s, 0.3s, 0s, 0s, 0s, 0s; }
-#recipes.active-panel .store-item:nth-child(4) { transition-delay: 0.4s, 0.4s, 0s, 0s, 0s, 0s; }
-#recipes.active-panel .store-item:nth-child(5) { transition-delay: 0.5s, 0.5s, 0s, 0s, 0s, 0s; }
-#recipes.active-panel .store-item:nth-child(6) { transition-delay: 0.6s, 0.6s, 0s, 0s, 0s, 0s; }
-#recipes.active-panel .store-item:nth-child(7) { transition-delay: 0.7s, 0.7s, 0s, 0s, 0s, 0s; }
-#recipes.active-panel .store-item:nth-child(8) { transition-delay: 0.8s, 0.8s, 0s, 0s, 0s, 0s; }
+#stores.active-panel .store-item:nth-child(1) { transition-delay: 0.1s, 0.1s, 0s, 0s, 0s, 0s; }
+#stores.active-panel .store-item:nth-child(2) { transition-delay: 0.2s, 0.2s, 0s, 0s, 0s, 0s; }
+#stores.active-panel .store-item:nth-child(3) { transition-delay: 0.3s, 0.3s, 0s, 0s, 0s, 0s; }
+#stores.active-panel .store-item:nth-child(4) { transition-delay: 0.4s, 0.4s, 0s, 0s, 0s, 0s; }
 
-#recipes.active-panel .store-item:hover {
-    transition-delay: 0s !important; /* Immediately strips delay on hover interaction */
+#stores.active-panel .store-item:hover {
+    transition-delay: 0s !important;
 }
 
-/* MOBILE RESPONSIVE FIXES */
-@media screen and (max-width: 1024px) {
-    .hero-content h1 { font-size: 3.5rem; }
-    .grid-layout { grid-template-columns: 1fr; gap: 2.5rem; padding-top: 2.5rem;}
-    .gallery-layout { grid-template-columns: 1fr; height: auto; }
-    .gallery-item { height: 250px; }
-    .overlay { opacity: 1; transform: translateY(0); background: linear-gradient(transparent, rgba(0,0,0,0.7)); }
-    #animated-quote { font-size: 2.5rem; }
-    .store-layout { width: 85%; }
+/* TIERED RESPONSIVE LAYOUTS */
+
+/* 1. TABLET / MEDIUM (768px to 1280px) */
+@media screen and (max-width: 1280px) {
+    /* Enable native scroll */
+    html, body { overflow-y: auto; }
+    .container { overflow-y: auto; height: auto; }
+    .panel { height: auto; min-height: 100vh; padding-top: var(--nav-height); padding-bottom: 2rem; }
+    
+    /* Global */
+    .content { width: 90%; margin: 0 auto; }
+    .section-title { font-size: 2.5rem; }
+
+    /* Hero */
+    .hero-content h1 { font-size: 3.8rem; }
+    .scroll-indicator { margin-top: 3rem; }
+
+    /* Section 2: Types (Card Grid) -> 2 Columns */
+    .card-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    /* Section 3: Benefits (Accordion) -> Reduce sizes */
+    .panel-title h2 { font-size: 2.5rem; letter-spacing: 4px; }
+    .panel-detail { width: 320px; padding: 2rem; }
+    .panel-detail h3 { font-size: 1.5rem; }
+    .panel-detail p { font-size: 0.95rem; }
+
+    /* Section 4: Desserts (Polaroids) -> Scale down absolute layout */
+    .polaroid-container {
+        transform: scale(0.8);
+        transform-origin: center center;
+    }
+
+    /* Section 5: Farms (Stores) -> 2 Columns */
+    .store-layout { width: 95%; max-width: none; }
+    .store-list {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 220px;
+    }
+    .store-item:nth-child(n) { grid-column: span 1; grid-row: span 1; }
+    .store-item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+    .store-item:nth-child(4) { grid-column: span 2; grid-row: span 1; }
+
+    /* Quote */
+    #animated-quote { font-size: 3rem; }
+    .rolling-strawberry { right: 0; bottom: -25px; width: 35px; height: 35px; }
 }
 
+/* 2. MOBILE (up to 768px) */
 @media screen and (max-width: 768px) {
+    /* Global */
     .section-title { font-size: 2.2rem; margin-bottom: 2rem; }
     .hamburger { display: block; }
     
-    /* Fixed Mobile Menu (Fixing gaps and margins) */
+    /* Nav Menu */
     .nav-links {
         position: fixed;
         left: 0;
@@ -1257,7 +1291,7 @@ h1, h2, h3, h4, .logo, .nav-links a, .number {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 2.5rem; /* Replaced margin with flex gap */
+        gap: 2.5rem;
         opacity: 0;
         visibility: hidden;
         transition: 0.4s ease;
@@ -1268,7 +1302,7 @@ h1, h2, h3, h4, .logo, .nav-links a, .number {
     }
     .nav-links li { margin: 0; padding: 0; }
     .nav-links li a {
-        font-size: 1.4rem;
+        font-size: 1.5rem;
         color: var(--text-dark);
         letter-spacing: 2px;
     }
@@ -1278,24 +1312,124 @@ h1, h2, h3, h4, .logo, .nav-links a, .number {
     .hamburger.active .bar:nth-child(2) { opacity: 0; }
     .hamburger.active .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
     
-    /* Panel scroll fallback */
+    /* Panels Base */
     .panel {
-        height: 100vh;
+        height: auto;
+        min-height: 100vh;
         padding-top: calc(var(--nav-height) + 1rem); 
-        padding-bottom: 2rem;
+        padding-bottom: 3rem;
     }
     .content {
-        padding: 1rem 0; /* Reduced padding on mobile */
+        padding: 1rem 0;
+        width: 90%;
     }
-    .item-content h3 { font-size: 1.4rem; }
-    .number { margin-right: 1.5rem; font-size: 1.2rem; }
-    .line-decorator { margin-right: 1.5rem; }
     
-    /* Store Grid Mobile overrides */
-    .store-layout { height: 90vh; }
-    .store-list { 
-        grid-template-columns: 1fr; /* Single column on mobile */
-        grid-auto-rows: minmax(150px, auto); 
+    /* Section 1: Hero */
+    .hero-content h1 { font-size: 2.8rem; }
+    .hero-content h1 span { display: block; }
+    .scroll-indicator { margin-top: 2rem; transform: scale(0.9); }
+    
+    /* Section 2: Types */
+    .card-container { 
+        grid-template-columns: 1fr; 
+        gap: 15px; 
+        margin-top: 30px; 
     }
-    .store-item:nth-child(n) { grid-column: span 1; grid-row: span 1; } /* Reset spanning */
+    .variety-card { min-height: auto; }
+    
+    /* Section 3: Benefits Accordion -> Vertical Stack */
+    .canvas-layout { 
+        flex-direction: column; 
+        height: auto; 
+    }
+    .canvas-panel { 
+        border-right: none; 
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+        min-height: 250px;
+        flex: 1 !important; /* Disable accordion flex grow on mobile to avoid jumping */
+    }
+    .canvas-panel:last-child { border-bottom: none; }
+    
+    .panel-title { 
+        flex-direction: row; 
+        gap: 1rem; 
+        transform: none; 
+        position: relative; 
+        z-index: 2;
+    }
+    .panel-title h2 { 
+        writing-mode: horizontal-tb; 
+        transform: none; 
+        font-size: 1.8rem; 
+        letter-spacing: 4px; 
+    }
+    
+    .canvas-panel:hover .panel-title { 
+        transform: none; 
+        opacity: 0; /* Keep it hiding so detail shows */
+    }
+    .canvas-panel:hover .panel-bg { transform: scale(1.02); }
+    
+    .panel-detail { 
+        position: absolute;
+        width: 90%; 
+        padding: 1.5rem; 
+        transform: translateY(10px); 
+    }
+    .canvas-panel:hover .panel-detail { transform: translateY(0); }
+    
+    /* Section 4: Desserts Polaroids -> Horizontal Scroll Layout */
+    .polaroid-container { 
+        position: relative; 
+        width: 100vw; 
+        height: auto; 
+        display: flex; 
+        flex-direction: row; 
+        justify-content: flex-start;
+        overflow-x: auto; 
+        gap: 15px; 
+        padding: 20px 5vw; 
+        margin-left: -5vw; 
+        scroll-snap-type: x mandatory;
+        transform: none; /* reset scale from 1280px */
+    }
+    /* Hide scrollbar for polaroid */
+    .polaroid-container::-webkit-scrollbar { display: none; }
+    
+    .polaroid-item { 
+        position: relative; 
+        top: auto !important; left: auto !important; 
+        transform: none !important; 
+        flex: 0 0 240px; 
+        margin-top: 0 !important;
+        scroll-snap-align: center; 
+    }
+    .polaroid-item:active { transform: translateY(-5px) !important; z-index: 10 !important; }
+    .polaroid-item:hover { transform: translateY(-5px) !important; z-index: 10 !important; }
+    .p-photo { width: 100%; height: 250px; }
+    
+    /* Section 5: Farms Grid */
+    .store-layout { height: auto; }
+    .store-list-container { overflow-y: visible; }
+    .store-list { 
+        grid-template-columns: 1fr; 
+        grid-auto-rows: minmax(180px, auto); 
+        gap: 15px;
+    }
+    .store-item:nth-child(n) { grid-column: span 1; grid-row: span 1; }
+    
+    /* Section 6: Quote */
+    #animated-quote { font-size: 2rem; white-space: normal; line-height: 1.6; padding: 0 10px; }
+    .quote-wrapper { padding-right: 0; padding-bottom: 30px; } /* Space for strawberry at bottom instead of right */
+    .rolling-strawberry { right: 50%; bottom: 0; transform: translateX(50%) translateX(-80vw) rotate(-2880deg); }
+    
+    @keyframes roll-in {
+        0% { transform: translateX(50%) translateX(-80vw) rotate(-2880deg); opacity: 0; }
+        5% { opacity: 1; }
+        100% { transform: translateX(50%) rotate(15deg); opacity: 1; }
+    }
+    .rolling-strawberry.roll-now.finished { transform: translateX(50%) rotate(15deg); }
+    
+    /* Custom Cursor: hide on mobile */
+    .custom-cursor { display: none !important; }
 }

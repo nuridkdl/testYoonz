@@ -177,8 +177,8 @@ document.addEventListener("DOMContentLoaded", function() {
     // 4. Jelly-Like Custom Cursor Tracking
     const cursor = document.querySelector('.custom-cursor');
     const cursorVisual = document.querySelector('.cursor-visual');
-    const interactiveElements = document.querySelectorAll('a, button, .hamburger');
-    const imageElements = document.querySelectorAll('.gallery-item');
+    const interactiveElements = document.querySelectorAll('a:not(.polaroid-item), button, .hamburger');
+    const imageElements = document.querySelectorAll('.gallery-item, .polaroid-item');
 
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
@@ -236,10 +236,24 @@ document.addEventListener("DOMContentLoaded", function() {
         el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
     });
 
+    const cursorText = document.querySelector('.cursor-text');
+
     // Special state on images: disable blend mode, add glassmorphism 'View' state
     imageElements.forEach(img => {
-        img.addEventListener('mouseenter', () => cursor.classList.add('on-image'));
-        img.addEventListener('mouseleave', () => cursor.classList.remove('on-image'));
+        img.addEventListener('mouseenter', () => {
+            cursor.classList.add('on-image');
+            if(img.classList.contains('polaroid-item')) {
+                cursor.classList.add('search-mode');
+                if(cursorText) cursorText.innerText = 'Search';
+            }
+        });
+        img.addEventListener('mouseleave', () => {
+            cursor.classList.remove('on-image');
+            if(img.classList.contains('polaroid-item')) {
+                cursor.classList.remove('search-mode');
+                if(cursorText) cursorText.innerText = 'View';
+            }
+        });
     });
 
     // Special state on store list items: display red Custom Cursor (Section 5)
@@ -247,10 +261,16 @@ document.addEventListener("DOMContentLoaded", function() {
     
     storeLinks.forEach(link => {
         link.addEventListener('mouseenter', () => {
-            if(cursor) cursor.classList.add('on-link');
+            if(cursor) {
+                cursor.classList.add('on-image', 'search-mode');
+                if(cursorText) cursorText.innerText = 'Search';
+            }
         });
         link.addEventListener('mouseleave', () => {
-            if(cursor) cursor.classList.remove('on-link');
+            if(cursor) {
+                cursor.classList.remove('on-image', 'search-mode');
+                if(cursorText) cursorText.innerText = 'View';
+            }
         });
         // Force click navigation in case other scroll scripts intercept it
         link.addEventListener('click', (e) => {
@@ -262,21 +282,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // Special state on creative recipe list items: display Custom Cursor (Section 6)
-    const recipeLinks = document.querySelectorAll('.recipe-target');
-    
-    recipeLinks.forEach(link => {
-        link.addEventListener('mouseenter', () => {
-            if(cursor) cursor.classList.add('on-link');
-        });
-        link.addEventListener('mouseleave', () => {
-            if(cursor) cursor.classList.remove('on-link');
-        });
-        // Prevent default click behavior (jumping to top of page)
-        link.addEventListener('click', (e) => {
-            e.preventDefault(); 
-        });
-    });
 
     // 5. Concept 3: The Canvas (Accordion Hover Logic)
     // Core expansion logic is handled purely by CSS flex-grow for maximum smoothness.
@@ -308,6 +313,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 6. Custom Smooth Scroll (Glide & Land Easing) - Simple Vertical Section Snap
     container.addEventListener('wheel', (e) => {
+        if (window.innerWidth <= 1280) return; // Allow normal scroll on tablet/mobile
         e.preventDefault(); // Disable default vertical scroll
         if (isScrolling) return;
         
@@ -328,10 +334,12 @@ document.addEventListener("DOMContentLoaded", function() {
     
     // Prevent default touch movement here ONLY for vertical bounds
     container.addEventListener('touchmove', e => {
+        if (window.innerWidth <= 1280) return; // Allow normal touch scroll
         e.preventDefault(); 
     }, { passive: false });
 
     container.addEventListener('touchend', e => {
+        if (window.innerWidth <= 1280) return; // Allow normal touch scroll
         if (isScrolling) return;
         const touchEndY = e.changedTouches[0].clientY;
         const diff = touchStartY - touchEndY;
