@@ -14,15 +14,19 @@ document.addEventListener("DOMContentLoaded", function() {
             hamburger.classList.toggle("active");
             navLinks.classList.toggle("active");
             
-            // Adjust hamburger color if needed based on background
+            // Adjust hamburger color based on background (PC ONLY)
             const barLines = hamburger.querySelectorAll(".bar");
-            if(hamburger.classList.contains("active")) {
-                barLines.forEach(b => b.style.backgroundColor = 'var(--text-dark)');
-            } else {
-                const activeSection = document.querySelector('.panel.active-panel');
-                if(activeSection && activeSection.classList.contains('dark-bg')) {
-                    barLines.forEach(b => b.style.backgroundColor = 'var(--text-light)');
+            if (window.innerWidth >= 1280) {
+                if(hamburger.classList.contains("active")) {
+                    barLines.forEach(b => b.style.backgroundColor = 'var(--text-dark)');
+                } else {
+                    const activeSection = document.querySelector('.panel.active-panel');
+                    if(activeSection && activeSection.classList.contains('dark-bg')) {
+                        barLines.forEach(b => b.style.backgroundColor = 'var(--text-light)');
+                    }
                 }
+            } else {
+                barLines.forEach(b => b.style.backgroundColor = 'var(--text-dark)');
             }
         });
     }
@@ -36,6 +40,11 @@ document.addEventListener("DOMContentLoaded", function() {
             
             if (!isScrolling) {
                 currentSectionIndex = index;
+                
+                // Immediately set active state for instant feedback on touch
+                navItems.forEach(link => link.classList.remove("active"));
+                item.classList.add("active");
+                
                 scrollToSection(currentSectionIndex);
             }
         });
@@ -71,9 +80,10 @@ document.addEventListener("DOMContentLoaded", function() {
     // 3. Intersection Observer for Scroll Animations & Nav
 
     const observerOptions = {
-        root: container,
-        rootMargin: "0px",
-        threshold: 0.35
+        // On tablet/mobile, the window handles native scroll. On PC, the custom container handles it.
+        root: window.innerWidth > 1279 ? container : null,
+        rootMargin: "-10% 0px -10% 0px", // Slight margin to trigger when reasonably centered
+        threshold: window.innerWidth > 1279 ? 0.35 : 0.15 // Smaller threshold on mobile to account for very tall auto-height sections
     };
 
     const sectionObserver = new IntersectionObserver((entries) => {
@@ -121,26 +131,38 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
                 }
 
-                // Header & Hamburger Color theme switch
+                // Header & Hamburger Color theme switch (PC Only)
                 const isDark = entry.target.classList.contains('dark-bg');
                 const bars = document.querySelectorAll('.bar');
                 const logoMain = document.querySelector('.logo-main');
                 const logoSub = document.querySelector('.logo-sub');
                 const navbar = document.querySelector('.navbar');
                 
-                if(isDark && (!hamburger || !hamburger.classList.contains('active'))) {
-                    if (navbar) {
-                        navbar.style.background = 'rgba(18, 18, 18, 0.9)';
-                        navbar.style.setProperty('--accent', '#e63946'); // Elegant bright red for dark mode
+                if (window.innerWidth >= 1280) {
+                    if(isDark && (!hamburger || !hamburger.classList.contains('active'))) {
+                        if (navbar) {
+                            navbar.style.background = 'rgba(18, 18, 18, 0.9)';
+                            navbar.style.setProperty('--accent', '#e63946'); // Elegant bright red for dark mode
+                        }
+                        bars.forEach(b => b.style.backgroundColor = 'var(--text-light)');
+                        if(logoMain) logoMain.style.color = 'var(--text-light)';
+                        if(logoSub) logoSub.style.color = '#ccc';
+                        navItems.forEach(item => item.style.color = 'var(--text-light)');
+                    } else {
+                        if (navbar) {
+                            navbar.style.background = 'rgba(250, 249, 246, 0.9)';
+                            navbar.style.setProperty('--accent', '#9b111e'); // Original dark red
+                        }
+                        bars.forEach(b => b.style.backgroundColor = 'var(--text-dark)');
+                        if(logoMain) logoMain.style.color = 'var(--accent)';
+                        if(logoSub) logoSub.style.color = '#888';
+                        navItems.forEach(item => item.style.color = '#666');
                     }
-                    bars.forEach(b => b.style.backgroundColor = 'var(--text-light)');
-                    if(logoMain) logoMain.style.color = 'var(--text-light)';
-                    if(logoSub) logoSub.style.color = '#ccc';
-                    navItems.forEach(item => item.style.color = 'var(--text-light)');
                 } else {
+                    // Tablet/Mobile always uses light theme header
                     if (navbar) {
-                        navbar.style.background = 'rgba(250, 249, 246, 0.9)';
-                        navbar.style.setProperty('--accent', '#9b111e'); // Original dark red
+                        navbar.style.background = 'var(--bg-light)';
+                        navbar.style.setProperty('--accent', '#9b111e');
                     }
                     bars.forEach(b => b.style.backgroundColor = 'var(--text-dark)');
                     if(logoMain) logoMain.style.color = 'var(--accent)';
@@ -216,9 +238,9 @@ document.addEventListener("DOMContentLoaded", function() {
         const angle = Math.atan2(velY, velX) * 180 / Math.PI;
 
         // Apply transformations: 
-        // 1. Wrapper gets the position with an offset so the pointer is at the top-left edge of the circle
+        // 1. Wrapper gets the position exactly centered on the hardware mouse coordinates
         if(cursor) {
-            cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(0px, 0px)`;
+            cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
         }
         
         // 2. Visual gets the jelly squash and stretch
@@ -283,6 +305,78 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
+    // Horizontal Polaroid Snap Carousel Active State (Infinite Auto-scroll)
+    // ONLY FOR TABLET AND MOBILE TO PROTECT PC LAYOUT
+    const polaroidContainer = document.querySelector('.polaroid-container');
+    if (polaroidContainer && window.innerWidth <= 1279) {
+        let polaroiditemsList = document.querySelectorAll('.polaroid-item');
+        if (polaroiditemsList.length > 0) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('center-active');
+                    } else {
+                        entry.target.classList.remove('center-active');
+                    }
+                });
+            }, {
+                root: polaroidContainer,
+                threshold: 0.85 
+            });
+            polaroiditemsList.forEach(item => observer.observe(item));
+        
+        // Setup Infinite Carousel 
+        if (window.innerWidth <= 1279 && polaroidContainer.children.length === 5) {
+            let originalItems = Array.from(polaroidContainer.children);
+            // Append 4 sets of clones to create a 25-item massive buffer
+            for(let i=0; i<4; i++) {
+                originalItems.forEach(item => {
+                    let clone = item.cloneNode(true);
+                    observer.observe(clone);
+                    polaroidContainer.appendChild(clone);
+                });
+            }
+            
+            // Start midway so user can swipe left or right instantly!
+            setTimeout(() => {
+                let itemWidth = window.innerWidth <= 767 ? 240 : 320; // card + gap
+                polaroidContainer.scrollTo({ left: itemWidth * 10, behavior: 'auto' });
+            }, 100);
+        }
+
+        // Dynamic Infinite Extension to the right
+        polaroidContainer.addEventListener('scroll', () => {
+            if (polaroidContainer.scrollLeft > polaroidContainer.scrollWidth - polaroidContainer.clientWidth - 800) {
+                let itemsToClone = Array.from(polaroidContainer.children).slice(0, 5);
+                itemsToClone.forEach(item => {
+                    let clone = item.cloneNode(true);
+                    observer.observe(clone);
+                    polaroidContainer.appendChild(clone);
+                });
+            }
+        });
+
+        // Auto-scroll loop
+        let scrollTimer;
+        const startAutoScroll = () => {
+            if (scrollTimer) clearInterval(scrollTimer);
+            scrollTimer = setInterval(() => {
+                if(window.innerWidth <= 1279 && polaroidContainer) {
+                    let itemWidth = window.innerWidth <= 767 ? 240 : 320;
+                    polaroidContainer.scrollBy({ left: itemWidth, behavior: 'smooth' });
+                }
+            }, 3500); /* Readability pace: slower auto-scroll */
+        };
+        startAutoScroll();
+        
+        // Pause auto-scroll on interaction
+        polaroidContainer.addEventListener('touchstart', () => clearInterval(scrollTimer), {passive: true});
+        polaroidContainer.addEventListener('touchend', () => { setTimeout(startAutoScroll, 2000); });
+        polaroidContainer.addEventListener('mouseenter', () => clearInterval(scrollTimer));
+        polaroidContainer.addEventListener('mouseleave', startAutoScroll);
+        }
+    }
+
     // 5. Concept 3: The Canvas (Accordion Hover Logic)
     // Core expansion logic is handled purely by CSS flex-grow for maximum smoothness.
     // We only need JS to handle the custom cursor aesthetic when hovering over panels.
@@ -313,7 +407,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 6. Custom Smooth Scroll (Glide & Land Easing) - Simple Vertical Section Snap
     container.addEventListener('wheel', (e) => {
-        if (window.innerWidth <= 1280) return; // Allow normal scroll on tablet/mobile
+        if (window.innerWidth <= 1279) return; // Allow normal scroll on tablet/mobile
         e.preventDefault(); // Disable default vertical scroll
         if (isScrolling) return;
         
@@ -334,12 +428,12 @@ document.addEventListener("DOMContentLoaded", function() {
     
     // Prevent default touch movement here ONLY for vertical bounds
     container.addEventListener('touchmove', e => {
-        if (window.innerWidth <= 1280) return; // Allow normal touch scroll
+        if (window.innerWidth <= 1279) return; // Allow normal touch scroll
         e.preventDefault(); 
     }, { passive: false });
 
     container.addEventListener('touchend', e => {
-        if (window.innerWidth <= 1280) return; // Allow normal touch scroll
+        if (window.innerWidth <= 1279) return; // Allow normal touch scroll
         if (isScrolling) return;
         const touchEndY = e.changedTouches[0].clientY;
         const diff = touchStartY - touchEndY;
@@ -358,6 +452,19 @@ document.addEventListener("DOMContentLoaded", function() {
         if (index < 0 || index >= sections.length) return;
         isScrolling = true;
         
+        // Native scroll behavior for Mobile & Tablet where .container doesn't handle scroll
+        if (window.innerWidth <= 1279) {
+            // We removed the structural CSS padding-top spacers, so JS must subtract the 80px navbar height to prevent overlap!
+            const navOffset = index === 0 ? 0 : 80; 
+            const targetTop = Math.max(0, sections[index].getBoundingClientRect().top + window.scrollY - navOffset);
+            window.scrollTo({
+                top: targetTop,
+                behavior: 'smooth'
+            });
+            setTimeout(() => { isScrolling = false; }, 800);
+            return;
+        }
+
         const targetTop = sections[index].offsetTop;
         const startTop = container.scrollTop;
         const distance = targetTop - startTop;
